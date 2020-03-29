@@ -38,11 +38,15 @@ def callback():
 
     return 'OK'
 
+@app.route("/index", methods=['POST'])
+def index():
+    return 'OK'
+
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     if event.reply_token == "00000000000000000000000000000000":
         return
-        
+
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(text=event.message.text))

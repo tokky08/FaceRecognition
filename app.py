@@ -38,6 +38,10 @@ def callback():
 
     return 'OK'
 
+@app.route('/')
+def hello_world():
+    return "Hello World!"
+
 @app.route("/index", methods=['POST'])
 def index():
     return 'OK'

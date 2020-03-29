@@ -37,6 +37,7 @@ def callback():
         print("handler: " + handler.handle(body, signature))
     except InvalidSignatureError:
         print("Invalid signature. Please check your channel access token/channel secret.")
+        print("handler_after: " + handler.handle(body, signature))
         abort(400)
 
     return 'OK'

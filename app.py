@@ -25,6 +25,8 @@ def callback():
     # get X-Line-Signature header value
     signature = request.headers['X-Line-Signature']
     print("signature: " + signature)
+    print("YOUR_CHANNEL_ACCESS_TOKEN: " + YOUR_CHANNEL_ACCESS_TOKEN)
+    print("YOUR_CHANNEL_SECRET: " + YOUR_CHANNEL_SECRET)
 
     # get request body as text
     body = request.get_data(as_text=True)

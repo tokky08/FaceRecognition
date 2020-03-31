@@ -58,7 +58,7 @@ def handle_message(event):
 @handler.add(MessageEvent, message=ImageMessage)
 def handle_image(event):
     try:
-        message_id = event.message_id
+        message_id = event.message.id
         message_content = line_bot_api.get_message_content(message_id)
         image = BytesIO(message_content.content)
 

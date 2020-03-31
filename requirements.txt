@@ -1,4 +1,4 @@
 line-bot-sdk
 flask
-azure-cognitiveservices-vison-face
+azure-cognitiveservices-vision-face
 msrestazure

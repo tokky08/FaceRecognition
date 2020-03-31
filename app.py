@@ -21,6 +21,9 @@ YOUR_FACE_API_KEY = os.getenv('YOUR_FACE_API_KEY')
 YOUR_FACE_API_ENDPOINT = os.getenv('YOUR_FACE_API_ENDPOINT')
 face_client = FaceClient(YOUR_FACE_API_ENDPOINT, CognitiveServicesCredentials(YOUR_FACE_API_KEY))
 
+PERSON_GROUP_ID = os.getenv('PERSON_GROUP_ID')
+PERSON_ID_HASIKAN = os.getenv('PERSON_ID_HASIKAN')
+
 YOUR_CHANNEL_ACCESS_TOKEN = os.getenv('YOUR_CHANNEL_ACCESS_TOKEN')
 YOUR_CHANNEL_SECRET = os.getenv('YOUR_CHANNEL_SECRET')
 
@@ -63,14 +66,26 @@ def handle_image(event):
         image = BytesIO(message_content.content)
 
         detected_faces = face_client.face.detect_with_stream(image)
-        print(detected_faces)
+
         if detected_faces != []:
             text = detected_faces[0].face_id
+
+            valified = face_client.face.verify_face_to_person(
+                face_id = detected_faces[0].face_id,
+                person_group_id = PERSON_GROUP_ID,
+                person_id = PERSON_ID_HASIKAN
+            )
+            
+            if valified:
+                if valified.is_identical:
+                    text = "この写真は橋本環奈です(score:{:.3f})".format(valified.confidence)
+                else:
+                    text = "この写真は橋本環奈ではありません(score:{:.3f})".format(valified.confidence)
         else:
-            text = "no faces detected"
+            text = "写真から顔が検出できませんした。他の画像でお試しください。"
         
     except:
-        text = "error"
+        text = "エラーが発生しました。"
 
     line_bot_api.reply_message(
         event.reply_token,

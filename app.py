@@ -53,17 +53,10 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
 
-    if event.message.text == "ねむい"：
-
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text="さっさと進捗だせ！")
-        )
-    else:
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text=event.message.text)
-        )
+    line_bot_api.reply_message(
+        event.reply_token,
+        TextSendMessage(text=event.message.text)
+    )
 
 
 @handler.add(MessageEvent, message=ImageMessage)

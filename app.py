@@ -31,6 +31,9 @@ YOUR_CHANNEL_SECRET = os.getenv('YOUR_CHANNEL_SECRET')
 line_bot_api = LineBotApi(YOUR_CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(YOUR_CHANNEL_SECRET)
 
+text_list = []
+name_list = []
+
 
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -43,10 +46,16 @@ def callback():
 
     # handle webhook body
     try:
-        if handler.handle(body, signature) == "この写真は誰ですか？学習させるので名前を入力してください！":
+        print(text_list)
+        if text_list[0] == "この写真は誰ですか？学習させるので名前を入力してください！":
+            name = handler.handle(body, signature)
+            name_list.push(name)
+            text_list = []
+            print(name_list)
+        else:
             handler.handle(body, signature)
+            text_list = []
 
-        handler.handle(body, signature)
     except InvalidSignatureError:
         print("Invalid signature. Please check your channel access token/channel secret.")
         abort(400)
@@ -107,6 +116,7 @@ def handle_image(event):
             else:
                 text = "この写真は誰ですか？学習させるので名前を入力してください！"
 
+
             # if text == "この写真は誰ですか？学習させるので名前を入力してください！":
             #     hamabe = face_client.person_group_person.create(
             #         person_group_id = PERSON_GROUP_ID,
@@ -132,13 +142,13 @@ def handle_image(event):
     except:
         text = "エラーが発生しました。"
 
+    text_list.push(text)
+
     # LINEチャネルを通じてメッセージを返答
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(text=text)
     )
-
-    return text
 
 
 

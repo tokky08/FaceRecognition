@@ -35,6 +35,7 @@ handler = WebhookHandler(YOUR_CHANNEL_SECRET)
 params = {
     "text_list": [],
     "name_list": [],
+    "flag": 0,
 }
 
 
@@ -54,7 +55,7 @@ def callback():
         handler.handle(body, signature)
         print(params["text_list"])
 
-        if flag == 1:
+        if params["flag"] == 1:
             print(params["name_list"])
             name = face_client.person_group_person.create(
                     person_group_id = PERSON_GROUP_ID,
@@ -62,11 +63,11 @@ def callback():
                 )
             name.person_id
             print(name.person_id)
-            flag = 0
+            params["flag"] = 0
 
         if params["text_list"][0] == "この写真は誰ですか？学習させるので名前を入力してください！":
             print("入った")
-            flag = 1
+            params["flag"] = 1
 
     except InvalidSignatureError:
         print("Invalid signature. Please check your channel access token/channel secret.")
@@ -116,7 +117,7 @@ def handle_image(event):
                 person_id = PERSON_ID_HASIKAN
             )
 
-            print(valified_hasikan)
+            # print(valified_hasikan)
 
             valified_hamabe = face_client.face.verify_face_to_person(
                 face_id = detected_faces[0].face_id,
@@ -124,7 +125,7 @@ def handle_image(event):
                 person_id = PERSON_ID_HAMABE
             )
 
-            print(valified_hamabe)
+            # print(valified_hamabe)
 
             if valified_hasikan.is_identical:
                 text = "この写真は橋本環奈です(score:{:.3f})".format(valified_hasikan.confidence)

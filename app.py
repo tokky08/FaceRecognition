@@ -55,6 +55,7 @@ def callback():
         print(params["text_list"])
 
         if params["text_list"] == "この写真は誰ですか？学習させるので名前を入力してください！":
+            print("入った")
             handler.handle(body, signature)
 
             name = face_client.person_group_person.create(

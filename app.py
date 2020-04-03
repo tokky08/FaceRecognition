@@ -33,8 +33,9 @@ handler = WebhookHandler(YOUR_CHANNEL_SECRET)
 
 
 params = {
-    "text_list": [],
-    "name_list": [],
+    "text_list": ["null"],
+    "name_list": ["null"],
+    "person_id_name": [],
     "flag": 0,
 }
 
@@ -61,8 +62,10 @@ def callback():
                     person_group_id = PERSON_GROUP_ID,
                     name = params["name_list"]
                 )
-            name.person_id
-            print(name.person_id)
+            person_id_name = name.person_id
+            params["person_id_name"].append(person_id_name)
+            print(params["person_id_name"])
+            params["text_list"][0] = "null" 
             params["flag"] = 0
 
         if params["text_list"][0] == "この写真は誰ですか？学習させるので名前を入力してください！":
@@ -124,6 +127,15 @@ def handle_image(event):
                 person_group_id = PERSON_GROUP_ID,
                 person_id = PERSON_ID_HAMABE
             )
+
+            if !(params["person_id_name"]):
+               print(params["peron_id_name"]) 
+                for person_id_name in params["person_id_name"]:
+                    valified_name = face_client.face.verify_face_to_person(
+                        face_id=detected_faces[0].face_id,
+                        person_group_id = PERSON_GROUP_ID,
+                        person_id = person_id_name
+                    )
 
             # print(valified_hamabe)
 

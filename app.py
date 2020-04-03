@@ -54,19 +54,19 @@ def callback():
         handler.handle(body, signature)
         print(params["text_list"])
 
-        if params["text_list"][0] == "この写真は誰ですか？学習させるので名前を入力してください！":
-            print("入った")
-            handler.handle(body, signature)
-
+        if flag == 1:
+            print(params["name_list"])
             name = face_client.person_group_person.create(
                     person_group_id = PERSON_GROUP_ID,
                     name = params["name_list"]
                 )
-
             name.person_id
-
-            print(params["name_list"])
             print(name.person_id)
+            flag = 0
+
+        if params["text_list"][0] == "この写真は誰ですか？学習させるので名前を入力してください！":
+            print("入った")
+            flag = 1
 
     except InvalidSignatureError:
         print("Invalid signature. Please check your channel access token/channel secret.")

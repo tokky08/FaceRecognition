@@ -33,8 +33,8 @@ handler = WebhookHandler(YOUR_CHANNEL_SECRET)
 
 
 params = {
-    "text_list": ["null"],
-    "name_list": ["null"],
+    "text_list": [],
+    "name_list": [],
     "person_id_name": [],
     "flag": 0,
 }

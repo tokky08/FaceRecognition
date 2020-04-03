@@ -23,6 +23,7 @@ face_client = FaceClient(YOUR_FACE_API_ENDPOINT, CognitiveServicesCredentials(YO
 
 PERSON_GROUP_ID = os.getenv('PERSON_GROUP_ID')
 PERSON_ID_HASIKAN = os.getenv('PERSON_ID_HASIKAN')
+PERSON_ID_HAMABE = os.getenv('PERSON_ID_HAMABE')
 
 YOUR_CHANNEL_ACCESS_TOKEN = os.getenv('YOUR_CHANNEL_ACCESS_TOKEN')
 YOUR_CHANNEL_SECRET = os.getenv('YOUR_CHANNEL_SECRET')
@@ -88,18 +89,31 @@ def handle_image(event):
             text = detected_faces[0].face_id
 
             # 顔検出ができたら顔認証を行う
-            valified = face_client.face.verify_face_to_person(
+            valified_hasikan = face_client.face.verify_face_to_person(
                 face_id = detected_faces[0].face_id,
                 person_group_id = PERSON_GROUP_ID,
                 person_id = PERSON_ID_HASIKAN
             )
+
+            valified_hamabe = face_client.face.verify_face_to_person(
+                face_id = detected_faces[0].face_id,
+                person_group_id = PERSON_GROUP_ID,
+                person_id = PERSON_ID_HAMABE
+            )
             
             # 認証結果に応じて処理を変える
-            if valified:
-                if valified.is_identical:
-                    text = "この写真は橋本環奈です(score:{:.3f})".format(valified.confidence)
+            if valified_hasikan:
+                if valified_hasikan.is_identical:
+                    text = "この写真は橋本環奈です(score:{:.3f})".format(valified_hasikan.confidence)
                 else:
-                    text = "この写真は橋本環奈ではありません(score:{:.3f})".format(valified.confidence)
+                    text = "この写真は橋本環奈ではありません(score:{:.3f})".format(valified_hasikan.confidence)
+
+            if valified_hamabe:
+                if valified_hamabe.is_identical:
+                    text = "この写真は浜辺美波です(score:{:.3f})".format(valified_hamabe.confidence)
+                else:
+                    text = "この写真は浜辺美波ではありません(score:{:.3f})".format(valified_hamabe.confidence)
+
         else:
             text = "写真から顔が検出できませんした。他の画像でお試しください。"
         

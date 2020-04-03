@@ -60,7 +60,7 @@ def callback():
             print(params["name_list"])
             name = face_client.person_group_person.create(
                     person_group_id = PERSON_GROUP_ID,
-                    name = params["name_list"]
+                    name = params["name_list"][0]
                 )
             person_id_name = name.person_id
             params["person_id_name"].append(person_id_name)
@@ -130,12 +130,12 @@ def handle_image(event):
 
             if not len(params["person_id_name"]) == 0:
                 print(params["peron_id_name"]) 
-                for person_id_name in params["person_id_name"]:
-                    valified_name = face_client.face.verify_face_to_person(
-                        face_id=detected_faces[0].face_id,
-                        person_group_id = PERSON_GROUP_ID,
-                        person_id = person_id_name
-                    )
+                # for person_id_name in params["person_id_name"]:
+                #     valified_name = face_client.face.verify_face_to_person(
+                #         face_id=detected_faces[0].face_id,
+                #         person_group_id = PERSON_GROUP_ID,
+                #         person_id = person_id_name
+                #     )
 
             # print(valified_hamabe)
 

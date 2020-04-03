@@ -54,7 +54,7 @@ def callback():
         handler.handle(body, signature)
         print(params["text_list"])
 
-        if params["text_list"] == "この写真は誰ですか？学習させるので名前を入力してください！":
+        if params["text_list"][0] == "この写真は誰ですか？学習させるので名前を入力してください！":
             print("入った")
             handler.handle(body, signature)
 

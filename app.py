@@ -31,8 +31,11 @@ YOUR_CHANNEL_SECRET = os.getenv('YOUR_CHANNEL_SECRET')
 line_bot_api = LineBotApi(YOUR_CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(YOUR_CHANNEL_SECRET)
 
-text_list = []
-name_list = []
+
+params = {
+    "text_list": [],
+    "name_list": [],
+}
 
 
 @app.route("/callback", methods=['POST'])
@@ -46,8 +49,9 @@ def callback():
 
     # handle webhook body
     try:
+        print(params["text_list"])
         handler.handle(body, signature)
-        print(handler.handle(body, signature))
+        print(params["text_list"])
 
     except InvalidSignatureError:
         print("Invalid signature. Please check your channel access token/channel secret.")
@@ -70,6 +74,7 @@ def handle_message(event):
 @handler.add(MessageEvent, message=ImageMessage)
 def handle_image(event):
     # text_list = []
+    params["text_list"] = []
     try:
         # メッセージIDを受け取る
         message_id = event.message.id
@@ -138,6 +143,9 @@ def handle_image(event):
 
     # text_list.append(text)
     # print(text_list)
+
+    params["text_list"].append(text)
+    print(params["text_list"])
 
     # LINEチャネルを通じてメッセージを返答
     line_bot_api.reply_message(

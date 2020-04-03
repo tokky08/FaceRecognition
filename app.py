@@ -46,8 +46,8 @@ def callback():
 
     # handle webhook body
     try:
-        print(text_list)
-        handler.handle(body, signature)
+        text = handler.handle(body, signature)
+        print(text)
 
     except InvalidSignatureError:
         print("Invalid signature. Please check your channel access token/channel secret.")
@@ -69,7 +69,7 @@ def handle_message(event):
 
 @handler.add(MessageEvent, message=ImageMessage)
 def handle_image(event):
-    text_list = []
+    # text_list = []
     try:
         # メッセージIDを受け取る
         message_id = event.message.id
@@ -136,8 +136,8 @@ def handle_image(event):
     except:
         text = "エラーが発生しました。"
 
-    text_list.append(text)
-    print(text_list)
+    # text_list.append(text)
+    # print(text_list)
 
     # LINEチャネルを通じてメッセージを返答
     line_bot_api.reply_message(
@@ -145,6 +145,7 @@ def handle_image(event):
         TextSendMessage(text=text)
     )
 
+    return text
 
 
 if __name__ == "__main__":

@@ -43,6 +43,9 @@ def callback():
 
     # handle webhook body
     try:
+        if handler.handle(body, signature) == "この写真は誰ですか？学習させるので名前を入力してください！":
+            handler.handle(body, signature)
+
         handler.handle(body, signature)
     except InvalidSignatureError:
         print("Invalid signature. Please check your channel access token/channel secret.")
@@ -54,20 +57,12 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
 
-    print("わあああああ")
-
-    if event.message.text == "ねむい":
-        print("ねむい")
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text="さっさと進捗出しなさい！")
-        )
-    else:
-        print("ねむくない")
-        line_bot_api.reply_message(
+    line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(text=event.message.text)
     )
+
+    return event.message.text
 
 
 @handler.add(MessageEvent, message=ImageMessage)
@@ -110,7 +105,13 @@ def handle_image(event):
             elif valified_hamabe.is_identical:
                 text = "この写真は浜辺美波です(score:{:.3f})".format(valified_hamabe.confidence)
             else:
-                text = "この写真は誰ですか？"
+                text = "この写真は誰ですか？学習させるので名前を入力してください！"
+
+            # if text == "この写真は誰ですか？学習させるので名前を入力してください！":
+            #     hamabe = face_client.person_group_person.create(
+            #         person_group_id = PERSON_GROUP_ID,
+            #         name = hamabe_name
+            #     )
             
             # 認証結果に応じて処理を変える
             # if valified_hasikan:
@@ -136,6 +137,8 @@ def handle_image(event):
         event.reply_token,
         TextSendMessage(text=text)
     )
+
+    return text
 
 
 

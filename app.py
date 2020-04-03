@@ -134,7 +134,7 @@ def handle_image(event):
     except:
         text = "エラーが発生しました。"
 
-    text_list.push(text)
+    text_list.append(text)
     print(text_list)
 
     # LINEチャネルを通じてメッセージを返答

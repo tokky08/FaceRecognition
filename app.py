@@ -46,6 +46,7 @@ def callback():
 
     # handle webhook body
     try:
+        print(text_list)
         handler.handle(body, signature)
 
     except InvalidSignatureError:
@@ -68,6 +69,7 @@ def handle_message(event):
 
 @handler.add(MessageEvent, message=ImageMessage)
 def handle_image(event):
+    text_list = []
     try:
         # メッセージIDを受け取る
         message_id = event.message.id

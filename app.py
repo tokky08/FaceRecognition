@@ -50,8 +50,10 @@ def callback():
     # handle webhook body
     try:
         print(params["text_list"])
+        print(params["name_list"])
         handler.handle(body, signature)
         print(params["text_list"])
+        print(params["name_list"])
 
     except InvalidSignatureError:
         print("Invalid signature. Please check your channel access token/channel secret.")
@@ -62,11 +64,14 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-
+    params["name_list"] = []
+    
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(text=event.message.text)
     )
+
+    params["name_list"].append(event.message.text)
 
     return event.message.text
 

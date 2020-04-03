@@ -95,11 +95,15 @@ def handle_image(event):
                 person_id = PERSON_ID_HASIKAN
             )
 
+            print("valified_hasikan: " + valified_hasikan)
+
             valified_hamabe = face_client.face.verify_face_to_person(
                 face_id = detected_faces[0].face_id,
                 person_group_id = PERSON_GROUP_ID,
                 person_id = PERSON_ID_HAMABE
             )
+
+            print("valified_hamabe: " + valified_hamabe)
             
             # 認証結果に応じて処理を変える
             if valified_hasikan:

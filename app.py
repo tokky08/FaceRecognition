@@ -49,11 +49,23 @@ def callback():
 
     # handle webhook body
     try:
-        print(params["text_list"])
-        print(params["name_list"])
+        # print(params["text_list"])
+        # print(params["name_list"])
         handler.handle(body, signature)
         print(params["text_list"])
-        print(params["name_list"])
+
+        if params["text_list"] == "この写真は誰ですか？学習させるので名前を入力してください！":
+            handler.handle(body, signature)
+
+            name = face_client.person_group_person.create(
+                    person_group_id = PERSON_GROUP_ID,
+                    name = params["name_list"]
+                )
+
+            name.person_id
+
+            print(params["name_list"])
+            print(name.person_id)
 
     except InvalidSignatureError:
         print("Invalid signature. Please check your channel access token/channel secret.")
@@ -65,7 +77,7 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     params["name_list"] = []
-    
+
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(text=event.message.text)
@@ -150,7 +162,7 @@ def handle_image(event):
     # print(text_list)
 
     params["text_list"].append(text)
-    print(params["text_list"])
+    # print(params["text_list"])
 
     # LINEチャネルを通じてメッセージを返答
     line_bot_api.reply_message(

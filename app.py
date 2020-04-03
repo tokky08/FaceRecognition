@@ -104,19 +104,26 @@ def handle_image(event):
             )
 
             print(valified_hamabe)
+
+            if valified_hasikan.is_identical:
+                text = "この写真は橋本環奈です(score:{:.3f})".format(valified_hasikan.confidence)
+            elif valified_hamabe.is_identical:
+                text = "この写真は浜辺美波です(score:{:.3f})".format(valified_hamabe.confidence)
+            else:
+                text = "この写真は誰ですか？"
             
             # 認証結果に応じて処理を変える
-            if valified_hasikan:
-                if valified_hasikan.is_identical:
-                    text = "この写真は橋本環奈です(score:{:.3f})".format(valified_hasikan.confidence)
-                else:
-                    text = "この写真は橋本環奈ではありません(score:{:.3f})".format(valified_hasikan.confidence)
+            # if valified_hasikan:
+            #     if valified_hasikan.is_identical:
+            #         text = "この写真は橋本環奈です(score:{:.3f})".format(valified_hasikan.confidence)
+            #     else:
+            #         text = "この写真は橋本環奈ではありません(score:{:.3f})".format(valified_hasikan.confidence)
 
-            if valified_hamabe:
-                if valified_hamabe.is_identical:
-                    text = "この写真は浜辺美波です(score:{:.3f})".format(valified_hamabe.confidence)
-                else:
-                    text = "この写真は浜辺美波ではありません(score:{:.3f})".format(valified_hamabe.confidence)
+            # if valified_hamabe:
+            #     if valified_hamabe.is_identical:
+            #         text = "この写真は浜辺美波です(score:{:.3f})".format(valified_hamabe.confidence)
+            #     else:
+            #         text = "この写真は浜辺美波ではありません(score:{:.3f})".format(valified_hamabe.confidence)
 
         else:
             text = "写真から顔が検出できませんした。他の画像でお試しください。"

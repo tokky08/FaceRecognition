@@ -128,6 +128,8 @@ def handle_image(event):
                 person_id = PERSON_ID_HAMABE
             )
 
+            print(params["person_id_name"])
+
             # if not len(params["person_id_name"]) == 0:
             #     print(params["peron_id_name"]) 
                 # for person_id_name in params["person_id_name"]:

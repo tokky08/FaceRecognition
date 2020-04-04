@@ -33,8 +33,8 @@ handler = WebhookHandler(YOUR_CHANNEL_SECRET)
 
 
 params = {
-    "text_list": [],
-    "name_list": [],
+    "text_list": ["null"],
+    "name_list": ["null"],
     "person_id_name": [],
     "flag": 0,
 }
@@ -58,12 +58,12 @@ def callback():
 
         if params["flag"] == 1:
             print(params["name_list"])
-            # name = face_client.person_group_person.create(
-            #         person_group_id = PERSON_GROUP_ID,
-            #         name = params["name_list"][0]
-            #     )
-            # person_id_name = name.person_id
-            # params["person_id_name"].append(person_id_name)
+            name = face_client.person_group_person.create(
+                    person_group_id = PERSON_GROUP_ID,
+                    name = params["name_list"][0]
+                )
+            person_id_name = name.person_id
+            params["person_id_name"].append(person_id_name)
             print(params["person_id_name"])
             params["text_list"][0] = "null" 
             params["flag"] = 0

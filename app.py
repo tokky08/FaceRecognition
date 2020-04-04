@@ -138,7 +138,7 @@ def handle_image(event):
                     valified_name = face_client.face.verify_face_to_person(
                         face_id = detected_faces[0].face_id,
                         person_group_id = PERSON_GROUP_ID,
-                        person_id = person_id_name
+                        person_id = PERSON_ID_HAMABE
                     )
                     print("完了")
 

@@ -128,8 +128,8 @@ def handle_image(event):
                 person_id = PERSON_ID_HAMABE
             )
 
-            if not len(params["person_id_name"]) == 0:
-                print(params["peron_id_name"]) 
+            # if not len(params["person_id_name"]) == 0:
+            #     print(params["peron_id_name"]) 
                 # for person_id_name in params["person_id_name"]:
                 #     valified_name = face_client.face.verify_face_to_person(
                 #         face_id=detected_faces[0].face_id,

@@ -183,8 +183,8 @@ def handle_image(event):
         else:
             text = "写真から顔が検出できませんした。他の画像でお試しください。"
         
-    # except:
-    #     text = "エラーが発生しました。"
+    except:
+        text = "エラーが発生しました。"
 
     # text_list.append(text)
     # print(text_list)

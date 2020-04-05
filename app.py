@@ -197,7 +197,7 @@ def handle_image(event):
         event.reply_token,
         TextSendMessage(text=text)
     )
-
+    
     return text
 
 

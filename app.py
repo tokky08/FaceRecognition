@@ -134,11 +134,11 @@ def handle_image(event):
                 print(params["person_id_name"])
                 for person_id_name in params["person_id_name"]:
                     print(person_id_name)
-                    print(PERSON_ID_HAMABE)
+                    # print(PERSON_ID_HAMABE)
                     valified_name = face_client.face.verify_face_to_person(
                         face_id = detected_faces[0].face_id,
                         person_group_id = PERSON_GROUP_ID,
-                        person_id = PERSON_ID_HAMABE
+                        person_id = person_id_name
                     )
                     print("完了")
 

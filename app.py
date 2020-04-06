@@ -105,6 +105,8 @@ def handle_image(event):
     # contentの画像データをバイナリデータとして扱えるようにする
     image = BytesIO(message_content.content)
 
+    print(image)
+
     # Detect from streamで顔検出
     detected_faces = face_client.face.detect_with_stream(image)
 

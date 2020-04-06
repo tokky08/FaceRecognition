@@ -97,94 +97,94 @@ def handle_message(event):
 def handle_image(event):
     # text_list = []
     params["text_list"] = []
-    try:
-        # メッセージIDを受け取る
-        message_id = event.message.id
-        # メッセージIDに含まれるmessage_contentを抽出する
-        message_content = line_bot_api.get_message_content(message_id)
-        # contentの画像データをバイナリデータとして扱えるようにする
-        image = BytesIO(message_content.content)
+    # try:
+    # メッセージIDを受け取る
+    message_id = event.message.id
+    # メッセージIDに含まれるmessage_contentを抽出する
+    message_content = line_bot_api.get_message_content(message_id)
+    # contentの画像データをバイナリデータとして扱えるようにする
+    image = BytesIO(message_content.content)
 
-        # Detect from streamで顔検出
-        detected_faces = face_client.face.detect_with_stream(image)
+    # Detect from streamで顔検出
+    detected_faces = face_client.face.detect_with_stream(image)
 
-        # 検出結果に応じて処理を分ける
-        if detected_faces != []:
-            # 検出された顔の最初のIDを取得
-            text = detected_faces[0].face_id
+    # 検出結果に応じて処理を分ける
+    if detected_faces != []:
+        # 検出された顔の最初のIDを取得
+        text = detected_faces[0].face_id
 
-            # 顔検出ができたら顔認証を行う
-            valified_hasikan = face_client.face.verify_face_to_person(
-                face_id = detected_faces[0].face_id,
-                person_group_id = PERSON_GROUP_ID,
-                person_id = PERSON_ID_HASIKAN
-            )
+        # 顔検出ができたら顔認証を行う
+        valified_hasikan = face_client.face.verify_face_to_person(
+            face_id = detected_faces[0].face_id,
+            person_group_id = PERSON_GROUP_ID,
+            person_id = PERSON_ID_HASIKAN
+        )
 
-            # print(valified_hasikan)
+        # print(valified_hasikan)
 
-            valified_hamabe = face_client.face.verify_face_to_person(
-                face_id = detected_faces[0].face_id,
-                person_group_id = PERSON_GROUP_ID,
-                person_id = PERSON_ID_HAMABE
-            )
+        valified_hamabe = face_client.face.verify_face_to_person(
+            face_id = detected_faces[0].face_id,
+            person_group_id = PERSON_GROUP_ID,
+            person_id = PERSON_ID_HAMABE
+        )
 
+        print(params["person_id_name"])
+
+        if params["person_id_name"]:
             print(params["person_id_name"])
+            for person_id_name in params["person_id_name"]:
+                print(person_id_name)
+                # print(PERSON_ID_HAMABE)
+                valified_name = face_client.face.verify_face_to_person(
+                    face_id = detected_faces[0].face_id,
+                    person_group_id = PERSON_GROUP_ID,
+                    person_id = person_id_name
+                )
+                print("完了")
 
-            if params["person_id_name"]:
-                print(params["person_id_name"])
-                for person_id_name in params["person_id_name"]:
-                    print(person_id_name)
-                    # print(PERSON_ID_HAMABE)
-                    valified_name = face_client.face.verify_face_to_person(
-                        face_id = detected_faces[0].face_id,
-                        person_group_id = PERSON_GROUP_ID,
-                        person_id = person_id_name
-                    )
-                    print("完了")
-
-            # if not len(params["person_id_name"]) == 0:
-            #     print(params["peron_id_name"]) 
-                # for person_id_name in params["person_id_name"]:
-                #     valified_name = face_client.face.verify_face_to_person(
-                #         face_id=detected_faces[0].face_id,
-                #         person_group_id = PERSON_GROUP_ID,
-                #         person_id = person_id_name
-                #     )
-
-            # print(valified_hamabe)
-
-            if valified_hasikan.is_identical:
-                text = "この写真は橋本環奈です(score:{:.3f})".format(valified_hasikan.confidence)
-            elif valified_hamabe.is_identical:
-                text = "この写真は浜辺美波です(score:{:.3f})".format(valified_hamabe.confidence)
-            else:
-                text = "この写真は誰ですか？学習させるので名前を入力してください！"
-
-
-            # if text == "この写真は誰ですか？学習させるので名前を入力してください！":
-            #     hamabe = face_client.person_group_person.create(
+        # if not len(params["person_id_name"]) == 0:
+        #     print(params["peron_id_name"]) 
+            # for person_id_name in params["person_id_name"]:
+            #     valified_name = face_client.face.verify_face_to_person(
+            #         face_id=detected_faces[0].face_id,
             #         person_group_id = PERSON_GROUP_ID,
-            #         name = hamabe_name
+            #         person_id = person_id_name
             #     )
-            
-            # 認証結果に応じて処理を変える
-            # if valified_hasikan:
-            #     if valified_hasikan.is_identical:
-            #         text = "この写真は橋本環奈です(score:{:.3f})".format(valified_hasikan.confidence)
-            #     else:
-            #         text = "この写真は橋本環奈ではありません(score:{:.3f})".format(valified_hasikan.confidence)
 
-            # if valified_hamabe:
-            #     if valified_hamabe.is_identical:
-            #         text = "この写真は浜辺美波です(score:{:.3f})".format(valified_hamabe.confidence)
-            #     else:
-            #         text = "この写真は浜辺美波ではありません(score:{:.3f})".format(valified_hamabe.confidence)
+        # print(valified_hamabe)
 
+        if valified_hasikan.is_identical:
+            text = "この写真は橋本環奈です(score:{:.3f})".format(valified_hasikan.confidence)
+        elif valified_hamabe.is_identical:
+            text = "この写真は浜辺美波です(score:{:.3f})".format(valified_hamabe.confidence)
         else:
-            text = "写真から顔が検出できませんした。他の画像でお試しください。"
+            text = "この写真は誰ですか？学習させるので名前を入力してください！"
+
+
+        # if text == "この写真は誰ですか？学習させるので名前を入力してください！":
+        #     hamabe = face_client.person_group_person.create(
+        #         person_group_id = PERSON_GROUP_ID,
+        #         name = hamabe_name
+        #     )
         
-    except:
-        text = "エラーが発生しました。"
+        # 認証結果に応じて処理を変える
+        # if valified_hasikan:
+        #     if valified_hasikan.is_identical:
+        #         text = "この写真は橋本環奈です(score:{:.3f})".format(valified_hasikan.confidence)
+        #     else:
+        #         text = "この写真は橋本環奈ではありません(score:{:.3f})".format(valified_hasikan.confidence)
+
+        # if valified_hamabe:
+        #     if valified_hamabe.is_identical:
+        #         text = "この写真は浜辺美波です(score:{:.3f})".format(valified_hamabe.confidence)
+        #     else:
+        #         text = "この写真は浜辺美波ではありません(score:{:.3f})".format(valified_hamabe.confidence)
+
+    else:
+        text = "写真から顔が検出できませんした。他の画像でお試しください。"
+        
+    # except:
+    #     text = "エラーが発生しました。"
 
     # text_list.append(text)
     # print(text_list)
@@ -197,7 +197,7 @@ def handle_image(event):
         event.reply_token,
         TextSendMessage(text=text)
     )
-    
+
     return text
 
 

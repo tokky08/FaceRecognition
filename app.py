@@ -58,10 +58,8 @@ def handle_message(event):
 
     line_bot_api.reply_message(
         event.reply_token,
-        TextSendMessage(text=event.message.text)
+        TextSendMessage(text="顔写真を送ってください")
     )
-
-    return event.message.text
 
 
 @handler.add(MessageEvent, message=ImageMessage)
@@ -104,7 +102,7 @@ def handle_image(event):
             elif valified_hamabe.is_identical:
                 text = "この写真は浜辺美波です(score:{:.3f})".format(valified_hamabe.confidence)
             else:
-                text = "この写真は分かりませんねえ。まだ学習されてません。"
+                text = "この写真は分かりませんねえ...まだ学習されてません。"
 
         else:
             text = "写真から顔が検出できませんでした。他の画像でお試しください。"

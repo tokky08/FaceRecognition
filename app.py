@@ -37,6 +37,7 @@ params = {
     "name_list": ["null"],
     "person_id_name": [],
     "flag": 0,
+    "image": "",
 }
 
 
@@ -64,6 +65,13 @@ def callback():
                 )
             person_id_name = name.person_id
             params["person_id_name"].append(person_id_name)
+
+            name_face = face_client.person_group_person.add_face_from_stream(
+                person_group_id = PERSON_GROUP_ID,
+                person_id = person_id_name,
+                url = params["image"]
+            )
+
             print(params["person_id_name"])
             params["text_list"][0] = "null" 
             params["flag"] = 0
@@ -95,6 +103,8 @@ def handle_message(event):
 
 @handler.add(MessageEvent, message=ImageMessage)
 def handle_image(event):
+
+    params["image"] = ""
     # text_list = []
     params["text_list"] = []
     # try:
@@ -104,6 +114,8 @@ def handle_image(event):
     message_content = line_bot_api.get_message_content(message_id)
     # contentの画像データをバイナリデータとして扱えるようにする
     image = BytesIO(message_content.content)
+
+    params["image"] = image
 
     print(image)
 

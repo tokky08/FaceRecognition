@@ -71,7 +71,7 @@ def callback():
             name_face = face_client.person_group_person.add_face_from_stream(
                 person_group_id = PERSON_GROUP_ID,
                 person_id = person_id_name,
-                url = params["image"]
+                image = params["image"]
             )
 
             print(params["person_id_name"])

@@ -26,6 +26,7 @@ PERSON_ID_HASIKAN = os.getenv('PERSON_ID_HASIKAN')
 PERSON_ID_HAMABE = os.getenv('PERSON_ID_HAMABE')
 PERSON_ID_TUTIYAMA = os.getenv('PERSON_ID_TUTIYAMA')
 PERSON_ID_HIDEKI = os.getenv('PERSON_ID_HIDEKI')
+PERSON_ID_KUMAMON = os.getenv('PERSON_ID_KUMAMON')
 
 YOUR_CHANNEL_ACCESS_TOKEN = os.getenv('YOUR_CHANNEL_ACCESS_TOKEN')
 YOUR_CHANNEL_SECRET = os.getenv('YOUR_CHANNEL_SECRET')
@@ -109,6 +110,12 @@ def handle_image(event):
                 person_id = PERSON_ID_HIDEKI
             )
 
+            valified_kumamon = face_client.face.verify_face_to_person(
+                face_id = detected_faces[0].face_id,
+                person_group_id = PERSON_GROUP_ID,
+                person_id = PERSON_ID_KUMAMON
+            )
+
             if valified_hasikan.is_identical:
                 text = "この写真は橋本環奈です(score:{:.3f})".format(valified_hasikan.confidence)
             elif valified_hamabe.is_identical:
@@ -117,6 +124,8 @@ def handle_image(event):
                 text = "この写真は土山くんです(score:{:.3f})".format(valified_tutiyama.confidence)
             elif valified_hideki.is_identical:
                 text = "この写真は秀樹くんです(score:{:.3f})".format(valified_hideki.confidence)
+            elif valified_kumamon.is_identical:
+                text = "この写真はくまもんです(score:{:.3f})".format(valified_kumamon.confidence)
             else:
                 text = "この写真は分かりませんねえ...まだ学習されてません。"
 

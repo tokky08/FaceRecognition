@@ -11,3 +11,4 @@
  - Azure Face API
  
  
+ 現在Azureの無料枠が終了したため使用不可です。

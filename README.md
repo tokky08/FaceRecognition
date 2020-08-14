@@ -10,7 +10,7 @@
 ## 開発ツール
 
  - Python
- - LINE Messegin API
+ - LINE Messaging API
  - Azure Face API
  
  
